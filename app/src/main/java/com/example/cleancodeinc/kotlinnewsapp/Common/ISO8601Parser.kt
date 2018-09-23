@@ -1,5 +1,6 @@
 package com.example.cleancodeinc.kotlinnewsapp.Common
 
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,14 +11,15 @@ object ISO8601Parser {
         val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
 
         if (input.endsWith("Z")) {
-            input = "${input.subSequence(0, input.length - 1)} + GMT-00:00"
+//            input = input.subSequence(0, input.length - 1) + "GMT-00:00"
+            input = StringBuilder(input.subSequence(0, input.length - 1)).append("GMT-00:00").toString()
 
         } else {
             val inset = 6
-            val s0 = input.subSequence(0, input.length - inset)
-            val s1 = input.subSequence(input.length - inset, input.length)
+            val startText = input.subSequence(0, input.length - inset)
+            val endText = input.subSequence(input.length - inset, input.length)
 
-            input = "$s0 GMT + $s1"
+            input = StringBuilder(startText).append("GMT").append(endText).toString()
         }
 
         return df.parse(input)
@@ -40,9 +42,11 @@ object ISO8601Parser {
         val s0 = output.subSequence(0, output.length - inset0)
         val s1 = output.subSequence(output.length - inset1, output.length)
 
-        var result = "$s0+$s1"
+//        var result = "$s0+$s1"
 
-        result = result.replace("UTC".toRegex(), replacement = "+00:00")
+        var result = StringBuilder(s0).append(s1).toString()
+
+        result = result.replace("UTC".toRegex(),  "+00:00")
 
         return result
 

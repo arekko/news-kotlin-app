@@ -1,6 +1,7 @@
 package com.example.cleancodeinc.kotlinnewsapp.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.cleancodeinc.kotlinnewsapp.Adapter.ViewHolder.ListHolderViewHolder
 import com.example.cleancodeinc.kotlinnewsapp.Interface.ItemClickListener
+import com.example.cleancodeinc.kotlinnewsapp.ListNews
 import com.example.cleancodeinc.kotlinnewsapp.Model.WebSite
 import com.example.cleancodeinc.kotlinnewsapp.R
 import kotlinx.android.synthetic.main.source_news_layout.view.*
@@ -34,7 +36,11 @@ class ListSourceAdapter(val context: Context, val webSite: WebSite) : RecyclerVi
 
         holder.setItemClickListener(object : ItemClickListener {
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(context, "Will be implemented in next tutorial", Toast.LENGTH_SHORT).show()
+                //Start new activity
+
+                val intent = Intent(context, ListNews::class.java)
+                intent.putExtra("source", webSite.sources!![position].id)
+                context.startActivity(intent)
             }
 
         })

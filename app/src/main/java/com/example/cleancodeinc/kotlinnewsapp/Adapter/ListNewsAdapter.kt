@@ -3,12 +3,17 @@ package com.example.cleancodeinc.kotlinnewsapp.Adapter
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.cleancodeinc.kotlinnewsapp.Adapter.ViewHolder.ListHolderViewHolder
 import com.example.cleancodeinc.kotlinnewsapp.Adapter.ViewHolder.ListNewsViewHolder
+import com.example.cleancodeinc.kotlinnewsapp.Common.ISO8601Parser
+import com.example.cleancodeinc.kotlinnewsapp.Interface.ItemClickListener
 import com.example.cleancodeinc.kotlinnewsapp.Model.Article
 import com.example.cleancodeinc.kotlinnewsapp.R
 import com.squareup.picasso.Picasso
+import java.text.ParseException
 import java.util.*
 import java.util.zip.Inflater
 
@@ -45,7 +50,25 @@ class ListNewsAdapter(val articleList: List<Article>, private val context: Conte
         if (articleList[position].publishedAt != null) {
             var date: Date? = null
 
+            try {
+                date = ISO8601Parser.parse(articleList[position].publishedAt!!)
+            } catch (ex: ParseException) {
+                ex.printStackTrace()
+            }
+            holder.article_time.setReferenceTime(date!!.time)
+
+
+
         }
+
+
+
+        holder.setItemClickListener(object : ItemClickListener {
+            override fun onClick(view: View, position: Int) {
+                //Will im
+            }
+
+        })
 
     }
 
